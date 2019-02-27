@@ -1,0 +1,3 @@
+rootProject.name = 'ReactXPSample'
+
+include ':app'
