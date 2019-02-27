@@ -40,7 +40,8 @@ yarn-error.log
 #
 buck-out/
 \.buckd/
-*.keystore
+#  we're adding keystore file here, but only for demo purposes.. ;)
+# *.keystore
 
 # fastlane
 #
