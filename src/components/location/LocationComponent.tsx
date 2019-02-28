@@ -99,18 +99,21 @@ export class LocationComponent extends ComponentBase<LocationComponentProps, Loc
 
     private renderRow(details: VirtualListViewCellRenderDetails<LocationItemInfo>) {
         const item = details.item;
+        const date = new Date(details.item.location.timestamp);
         return (
             <RX.View style={_styles.locationViewStyle}>
                 <RX.Text>
-                    latitude: {item.location.coords.latitude}, longitude: {item.location.coords.longitude} ({details.item.location.timestamp})
+                    latitude: {item.location.coords.latitude.toPrecision(4)},
+                    longitude: {item.location.coords.longitude.toPrecision(4)}&nbsp;
+                    ({date.getUTCDay()}.{(date.getUTCMonth() + 1) + '.' + date.getFullYear()}, {date.getHours() + ':' + date.getUTCMinutes()})
                 </RX.Text>
             </RX.View>
         );
     }
 
     private addLocation = () => {
-        RX.Location.getCurrentPosition({timeout: 2000, enableHighAccuracy: true, maximumAge: 100}).thenAsync((value) => {
+        RX.Location.getCurrentPosition({timeout: 30000, enableHighAccuracy: true, maximumAge: 100}).thenAsync((value) => {
             LocationStore.addLocation(value);
-        }).catch((error) => RX.Alert.show('Problem with your location data..', error));
-    }
+        }).catch((error) => RX.Alert.show('Problem with your location data..', error.message));
+    };
 }
